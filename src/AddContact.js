@@ -7,7 +7,7 @@ const AddContact = () => {
   const [state,setState]=useState('')
   const [editvalue,setEditvalue]=useState(null)
   const [edit,setEdit]=useState('')
-  const[value,setValue]=useState('')
+  const[Todo,setTodo]=useState('')
   
   const handleSubmit=(e)=>{
    e.preventDefault()
@@ -20,6 +20,19 @@ const AddContact = () => {
  function handleDelete(id){
   const update=[...contact].filter((contact)=>contact.id!==id)
   setContact(update)
+ }
+ const onClick=(id)=>{
+   const updated=[...contact].map((todo)=>{
+     if(todo.id===id){
+      todo.name=edit
+     todo.email=Todo
+   }
+   return todo
+  })
+   setContact(updated)
+  setEdit('')
+  setTodo('')
+  setEditvalue(null)
  }
 
   return (
@@ -41,11 +54,15 @@ const AddContact = () => {
     <div>
       {contact.map((value)=>{return(<div  key={value.id}>
         {editvalue===value.id?(<form><label>name</label><br />
-        <input/> <br /> <label>phn</label> <br /><input/></form>):
+        <input value={edit} onChange={(e)=>setEdit(e.target.value)}/> <br /> <label>phn</label> <br />
+        <input value={Todo} onChange={(e)=>setTodo(e.target.value)}/></form>):
         (<form><h3>{value.name}</h3><h3>{value.email}</h3></form>)}
+      {editvalue===value.id?(<button onClick={()=>onClick(value.id)}>submit</button>):
+      (<form>  <button onClick={()=>handleDelete(value.id)}>delete</button> 
+        <button onClick={()=>setEditvalue(value.id)}>edit</button></form>)}
       
-        <button onClick={()=>handleDelete(value.id)}>delete</button> 
-        <button onClick={()=>setEditvalue(value.id)}>edit</button></div>)})}
+        
+        </div>)})}
       </div>
     </div>
     )
