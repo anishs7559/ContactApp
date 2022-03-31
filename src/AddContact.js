@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import './App.css'
 
 const AddContact = () => {
@@ -8,6 +8,17 @@ const AddContact = () => {
   const [editvalue,setEditvalue]=useState(null)
   const [edit,setEdit]=useState('')
   const[Todo,setTodo]=useState('')
+  useEffect(()=>{
+    const temp=localStorage.getItem('todos')
+    const loaded=JSON.parse(temp)
+    if(loaded){
+      setContact(loaded)
+    }
+  },[])
+  useEffect(()=>{
+    const temp=JSON.stringify(contact)
+    localStorage.setItem('todos',temp)
+  },[contact])
   
   const handleSubmit=(e)=>{
    e.preventDefault()
@@ -36,9 +47,9 @@ const AddContact = () => {
  }
 
   return (
-    <div>
+    <div >
       
-      <div className='addcontact'>
+      <div>
      
         <form onSubmit={handleSubmit} >
         <label>name</label><br />
